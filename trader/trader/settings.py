@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,9 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "v4-e$8d2u+7&=a3gg#+2%oom-u!_2%q@b688d=amdfv-i7x116"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", True)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -35,7 +36,6 @@ INSTALLED_APPS = ["django.contrib.staticfiles", "api"]
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
@@ -78,3 +78,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = "/static/"
+
+
+if DEBUG:
+    load_dotenv("../.trader-env")
+
+MONGO_DATABASE = {
+    "HOST": os.environ.get("MONGO_HOST"),
+    "PORT": os.environ.get("MONGO_PORT"),
+    "USER": os.environ.get("MONGO_USER"),
+    "PASSWORD": os.environ.get("MONGO_PASSWORD"),
+    "DBNAME": os.environ.get("MONGO_DBNAME"),
+}
