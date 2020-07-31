@@ -2,13 +2,17 @@
 from mongoengine import *
 import datetime
 
+class Trades(EmbeddedDocumentListField):
+    operations = StringField(max_length=200, required=True)
+
 
 class Portfolio(Document):
     ticker_symbol = StringField(max_length=200, required=True)
     avg_buy_price = DecimalField()
     shares = IntField(min_value=0)
-    trades = ListField(StringField(), default=list)
-    timestamp = DateTimeField(default=datetime.datetime.now)
+    trades = EmbeddedDocumentListField()
+    created_at = DateTimeField(default=datetime.datetime.now)
+    updated_at = DataTimeFiled(Trades, default=Trades)
     meta = {"indexes": ["ticker_symbol"]}
 
     def is_valid(self):
