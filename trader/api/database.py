@@ -19,5 +19,6 @@ def mongo_uri():
     else:
         return "mongodb://localhost:27017/smallcase"
 
+
 def connect_mongo():
     connect(host=mongo_uri())
