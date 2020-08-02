@@ -32,10 +32,10 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.staticfiles',
-    'api',
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.staticfiles",
+    "api",
 ]
 
 MIDDLEWARE = [
@@ -46,15 +46,18 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "trader.urls"
 
+TEMPLATE_BASE = "templates"
+TEMPLATE_DIR = os.path.join(BASE_DIR, TEMPLATE_BASE)
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [TEMPLATE_DIR],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
@@ -89,18 +92,29 @@ STATIC_URL = "/static/"
 # if DEBUG:
 #     load_dotenv("../.trader-env")
 
-if os.environ.get('ENVIRONMENT') == None:
-    MONGO_URL = 'localhost'
+if os.environ.get("ENVIRONMENT") == None:
+    MONGO_URL = "localhost"
     MONGO_PORT = str(27017)
     MONGO_URI = "mongodb://" + MONGO_URL + ":" + MONGO_PORT + "/"
     DEBUG = True
-    SECRET_KEY = 'secret'
-elif os.environ.get('ENVIRONMENT') == 'production':
-    MONGO_USER = os.environ['MONGO_USER']
-    MONGO_PASSWORD = os.environ['MONGO_PASSWORD']
-    MONGO_URL = os.environ['MONGO_URL']
-    MONGO_PORT = os.environ['MONGO_PORT']
-    MONGO_DBNAME = os.environ['MONGO_DBNAME']
-    MONGO_URI = "mongodb://" + MONGO_USER + ":" + MONGO_PASSWORD + "@" + MONGO_URL + ":" + MONGO_PORT + "/" + MONGO_DBNAME
+    SECRET_KEY = "secret"
+elif os.environ.get("ENVIRONMENT") == "production":
+    MONGO_USER = os.environ["MONGO_USER"]
+    MONGO_PASSWORD = os.environ["MONGO_PASSWORD"]
+    MONGO_URL = os.environ["MONGO_URL"]
+    MONGO_PORT = os.environ["MONGO_PORT"]
+    MONGO_DBNAME = os.environ["MONGO_DBNAME"]
+    MONGO_URI = (
+        "mongodb://"
+        + MONGO_USER
+        + ":"
+        + MONGO_PASSWORD
+        + "@"
+        + MONGO_URL
+        + ":"
+        + MONGO_PORT
+        + "/"
+        + MONGO_DBNAME
+    )
     DEBUG = False
-    SECRET_KEY = os.environ['SECRET_KEY']
+    SECRET_KEY = os.environ["SECRET_KEY"]

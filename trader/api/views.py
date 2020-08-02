@@ -8,6 +8,20 @@ from api.models import Portfolio, Trades
 
 
 class TradeView(View):
+
+    http_method_names = ['get', 'post', 'put', 'delete']
+
+    def dispatch(self, request):
+        method = self.request.POST.get('_method', '').lower()
+        if method == 'add trade':
+            return self.post(request)
+        if method == 'update trade':
+            return self.put(request)
+        if method == 'delete trade':
+            return self.delete(request)
+        return super(TradeView, self).dispatch(request)
+
+
     # Adding the trade details to DB
     def post(self, request):
         try:
@@ -119,13 +133,12 @@ class TradeView(View):
             security_dict = trade_obj[0]["uid"]
 
             # deleting the trade from that security
-            trade_obj.update_one(
+            trade_obj = trade_obj.update_one(
                 pull__trades__operation=data_trade_operation
             )
-
             portfolio_obj = Portfolio.objects(uid=security_dict)
 
-            if not len(trade_obj):
+            if not len(Portfolio.objects(trades__match={ "ticker_symbol": data_ticker})):
                 portfolio_obj.delete()
             else:
                 changed_total_shares = int(
@@ -141,11 +154,12 @@ class TradeView(View):
                 )
 
             return JsonResponse(
-                {"status": "success", "message": "Trade deletion Successfully"},
+                {"status": "success", "message": "Trade deletion successfully"},
                 status=200,
             )
 
         except Exception as e:
+            print(str(e))
             return JsonResponse(
                 {
                     "status": "fail",
@@ -179,12 +193,12 @@ class TradeView(View):
 
                 security_dict = trade_obj[0]["uid"]
 
-                update_data_share_count = data.get(
+                update_data_share_count = int(data.get(
                     "updated_shares_count", data_shares_count
-                )
-                update_buy_price = data.get(
+                ))
+                update_buy_price = float(data.get(
                     "updated_buy_price", data_buy_price
-                )
+                ))
 
                 trade_obj.update_one(
                     set__trades__S=Trades(
@@ -196,13 +210,21 @@ class TradeView(View):
                     )
                 )
                 portfolio_obj = Portfolio.objects(uid=security_dict)
-                changed_total_shares = int(
-                    portfolio_obj[0]["total_shares_count"]
-                ) - data_shares_count + int(update_data_share_count)
+
+                portfolio_obj_total_shares = int(portfolio_obj[0]["total_shares_count"])
+                portfolio_obj_average_buy_price = float(portfolio_obj[0]["average_buy_price"])
+
+                changed_total_shares = portfolio_obj_total_shares - data_shares_count + int(update_data_share_count)
+
+                changed_buy_price = float(portfolio_obj_total_shares * portfolio_obj_average_buy_price)- float(data_buy_price * data_shares_count)+ float(update_buy_price * update_data_share_count)
+
+                changed_average_buy_price = changed_buy_price / changed_total_shares
 
                 portfolio_obj.update(
-                    set__total_shares_count=update_data_share_count,
+                    set__total_shares_count=changed_total_shares,
+                    set__average_buy_price=changed_average_buy_price
                 )
+
                 return JsonResponse(
                     {"status": "success", "message": "Trade updated Successfully"},
                     status=200,
@@ -217,6 +239,7 @@ class TradeView(View):
                 )
 
         except Exception as e:
+            print(str(e))
             return JsonResponse(
                 {
                     "status": "fail",
