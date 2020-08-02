@@ -12,8 +12,6 @@ class Trades(EmbeddedDocument):
     buy_price = DecimalField(default=0)
     timestamp = DateTimeField(default=datetime.datetime.now)
 
-    meta = {"indexes": ["ticker_symbol"]}
-
     def is_valid(self):
         return (
             self.ticker_symbol != ""
@@ -29,3 +27,6 @@ class Portfolio(Document):
     trades = EmbeddedDocumentListField(Trades)
     created_at = DateTimeField(default=datetime.datetime.now)
     updated_at = DateTimeField(default=datetime.datetime.now)
+
+    meta = {"indexes": ["uid"]}
+

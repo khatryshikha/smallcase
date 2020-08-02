@@ -15,8 +15,12 @@ Including another URLconf
 """
 
 from django.urls import path, include
+# from rest_framework_swagger.views import get_swagger_view
 
+# schema_view = get_swagger_view(title="Portfolio Tracker APIs")
 
 urlpatterns = [
+    # path("swagger/", schema_view),
     path("api/", include("api.urls")),
+    
 ]

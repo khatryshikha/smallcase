@@ -5,10 +5,6 @@ from django.shortcuts import redirect, render
 from django.views.generic import View
 
 from api.models import Portfolio, Trades
-from rest_framework_swagger.views import get_swagger_view
-
-
-schema_view = get_swagger_view(title="Portfolio Tracker APIs")
 
 
 class TradeView(View):
