@@ -1,0 +1,68 @@
+ 
+{% extends "base.html" %} {% block content %}
+{% csrf_token %}  
+<legend>Fetch Portfolio</legend>
+<div class = "col-md-12">
+  <div class = "col-md-4">
+    <form action="{% url 'fetch_portfolio' %}" method="get">
+      <button type="submit" name="fetch" value="portfolio" style="width:350px" class="btn btn-dark"> Fetching portfolio</button>
+    </form>
+  </div>
+  <div class = "col-md-4">
+    <form action="{% url 'fetch_holdings' %}" method="get">
+      <button type="submit" name="fetch" value="holdings" style="width:350px" class="btn btn-dark"> Fetching holdings</button>
+    </form>
+  </div>
+  <div class = "col-md-4"></div>
+    <form action="{% url 'fetch_returns' %}" method="get">
+      <button type="submit" name="fetch" value="returns" style="width:350px" class="btn btn-dark"> Fetching retruns</button>
+    </form>
+  </div>
+</div>
+<br><br><br>
+<form action="{% url 'trade' %}" method="post">
+    <legend>Trading form</legend>
+    <div class = "col-md-6">
+      <label for="ticker_symbol">Ticker Symbol*:</label>
+      <input class="col-md-12" type="text" id="ticker_symbol" name="ticker_symbol" required=True><br><br>
+    </div>  
+    <div class = "col-md-6">
+      <label for="buy_price">Stock Buy Price*:</label>
+      <input class="col-md-12" type="text" id="buy_price" name="buy_price" required=True><br><br>
+    </div>
+    <div class = "col-md-6">
+      <label for="shares_count">No of Shares(Buy/Sell)*:</label>
+      <input class="col-md-12" type="text" id="shares_count" name="shares_count" required=True><br><br>
+    </div>
+    <div class="col-md-6">
+      <label for="trade_operation">Trade Operation(Buy/Sell)*:</label>
+      <input class="col-md-12" type="text" id="trade_operation" name="trade_operation" required=True><br><br>
+    </div>
+    <br><br><br><br><br><br><br><br>
+    <legend>Update the above Trade Values:</legend>
+  
+    <div class = "col-md-6">
+      <label for="updated_shares_count">No of Shares:</label>
+      <input class="col-md-12" type="text" id="updated_shares_count" name="updated_shares_count">
+    </div>
+
+    <div class = "col-md-6">
+      <label for="updated_buy_price">Stock Buy Price:</label>
+      <input class="col-md-12" type="text" id="updated_buy_price" name="updated_buy_price"><br><br>
+    </div>
+    <br><br><br><br><br><br>
+    <div class="col-md-12">
+      <div class="col-md-4">
+        <input type="submit" name="_method" value="Add trade" style="width:350px">
+      </div>
+      <div class="col-md-4">
+        <input type="submit" name="_method" value="Delete trade" style="width:350px" value="Delete trade">
+      </div>
+      <div class="col-md-4">
+        <input type="submit" style="width:350px" name="_method" value="Update trade" >
+      </div> 
+    </div>
+  </form>
+  <br><br><br>
+  
+  {% endblock %}

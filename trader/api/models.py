@@ -21,12 +21,12 @@ class Trades(EmbeddedDocument):
 
 
 class Portfolio(Document):
-    uid = UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    uid = UUIDField(default=uuid.uuid4,unique=True, binary=False)
     average_buy_price = DecimalField()
     total_shares_count = IntField(min_value=0)
     trades = EmbeddedDocumentListField(Trades)
     created_at = DateTimeField(default=datetime.datetime.now)
     updated_at = DateTimeField(default=datetime.datetime.now)
 
-    meta = {"indexes": ["uid"]}
+    # meta = {"indexes": ["uid"]}
 
