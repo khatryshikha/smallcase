@@ -6,7 +6,7 @@ https://documenter.getpostman.com/view/5364090/T1Dv9F6G
 
 GitHub Repository Link : https://github.com/khatryshikha/smallcase.git
 
-This project is hosted on heroku using Mlab DaaS : https://smallcase-portfolio-tracker.herokuapp.com/
+This project is hosted on heroku using Mlab DaaS : https://demo-smallcase.herokuapp.com/
 
 ## Introduction
 A portfolio tracking API is a collection containing single portfolio for a single user. This set of APIs implements adding/deleting/updating trades and can do basic return calculations. In which each trade contains 2 operation i.e. Selling and Buying. With the details of the trade that are :
