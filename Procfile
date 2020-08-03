@@ -1,1 +1,1 @@
-web: gunicorn trader.trader.wsgi --log-file -
+web: gunicorn trader.wsgi --log-file -
