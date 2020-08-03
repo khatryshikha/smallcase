@@ -1,21 +1,20 @@
  
-{% extends "base.html" %} {% block content %}
-{% csrf_token %}  
+{% extends "base.html" %} {% block content %} 
 <legend>Fetch Portfolio</legend>
 <div class = "col-md-12">
   <div class = "col-md-4">
     <form action="{% url 'fetch_portfolio' %}" method="get">
-      <button type="submit" name="fetch" value="portfolio" style="width:350px" class="btn btn-dark"> Fetching portfolio</button>
+      <button type="submit" style="width:350px" class="btn btn-dark"> Fetching portfolio</button>
     </form>
   </div>
   <div class = "col-md-4">
     <form action="{% url 'fetch_holdings' %}" method="get">
-      <button type="submit" name="fetch" value="holdings" style="width:350px" class="btn btn-dark"> Fetching holdings</button>
+      <button type="submit" style="width:350px" class="btn btn-dark"> Fetching holdings</button>
     </form>
   </div>
   <div class = "col-md-4"></div>
     <form action="{% url 'fetch_returns' %}" method="get">
-      <button type="submit" name="fetch" value="returns" style="width:350px" class="btn btn-dark"> Fetching retruns</button>
+      <button type="submit" style="width:350px" class="btn btn-dark"> Fetching returns</button>
     </form>
   </div>
 </div>
