@@ -1,1 +1,3 @@
-web: gunicorn trader.wsgi --log-file -
+web: gunicorn trader.wsgi:application --log-file - --log-level debug
+python manage.py collectstatic --noinput
+manage.py migrate
