@@ -15,7 +15,9 @@ Including another URLconf
 """
 
 from django.urls import path, include
+from django.views.generic import TemplateView
 
 urlpatterns = [
+    path("",TemplateView.as_view(template_name="trade-form.html")),
     path("api/", include("api.urls")),
 ]
